@@ -1,4 +1,4 @@
-# SSM Framework
+# SSM framework
 这是一个简单易用的  `Spring + SpringMVC + Mybatis` 项目骨架
 
 缓存使用`Redis`
@@ -16,7 +16,7 @@ Tomcat 7.0+
 项目使用   `Redis` 作为缓存层，使用时请安装  [Redis](http://redis.io) 并启动服务
 
 项目`com.cn.util.builder`下有一个代码生成器，用于生成相关表对应的【Dao.Mapper.Model.Service】四层(说法不对勿喷. 囧~)的通用代码
-直接在`Generator.java`文件中  Run As Java Application 就完成了
+直接在`Generator.java`文件中  Run As Java Application 就完成了,
 具体配置参考`config.json`
 
 PS： 
