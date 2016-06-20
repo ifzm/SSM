@@ -7,8 +7,7 @@ JDK 1.7+
 Tomcat 7.0+ 
 
 现在只是一个雏形，持续完善中，欢迎 `Follow`  
-[GitHub](https://github.com/ifzm)
-
+[GitHub](https://github.com/ifzm)  
 [Blog](http://smileue.com)
 
 ## TODO
