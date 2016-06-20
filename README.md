@@ -22,7 +22,7 @@ Tomcat 7.0+
 PS： 
 - db:      修改成自己的jdbc连接配置
 - tables:  多个表名以逗号','隔开
-- package: 各个文件的包名，如果不想生成某类文件，之间删除就行，如不想生成Model，则将modelPackage删除
+- package: 各个文件的包名，如果不想生成某类文件，直接删除就行，如不想生成Model，则将modelPackage删除
 
 使用过程中遇到问题或意见可以发邮件给我或者提交issues，我们一起完善这个项目骨架
 

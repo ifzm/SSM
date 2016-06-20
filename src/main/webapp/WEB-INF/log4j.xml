@@ -78,7 +78,7 @@
 		<param name="BufferSize" value="512" />
 		<param name="SMTPHost" value="smtp.163.com" />
 		<param name="SMTPUsername" value="devfzm" />
-		<param name="SMTPPassword" value="fzm123" />
+		<param name="SMTPPassword" value="******" />
 		<param name="From" value="devfzm@163.com" />
 		<param name="To" value="devfzm@gmail.com" />
 		<param name="Subject" value="[ SSM ] Runtime exception report" />
