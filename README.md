@@ -11,6 +11,8 @@ Tomcat 7.0+
 [Blog](http://smileue.com)
 
 ## TODO
+`Maven build - tomcat7:run`
+
 项目使用   `Redis` 作为缓存层，使用时请安装  [Redis](http://redis.io) 并启动服务
 
 项目`com.cn.util.builder`下有一个代码生成器，用于生成相关表对应的【Dao.Mapper.Model.Service】四层(说法不对勿喷. 囧~)的通用代码
