@@ -1,0 +1,17 @@
+{
+	"db": {
+		"driver": "com.mysql.jdbc.Driver",
+		"url": "jdbc:mysql://localhost:3306/imall?useUnicode=true&characterEncoding=UTF8&useSSL=false",
+		"username": "root",
+		"password": "123456" 
+	},
+	
+	"daoPackage": "com.cn.dao",
+	"mapperPackage": "com.cn.mapper",
+	"modelPackage": "com.cn.model",
+	"servicePackage": "com.cn.service",
+	"serviceImplPackage": "com.cn.service.impl",
+	
+	"redisCache": "com.cn.util.RedisCache",
+	"tables": "user"
+}

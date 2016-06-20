@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="  
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd  
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd">
+
+	<!-- 启用spring注解支持 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.cn" />
+
+	<!-- 加载jdbc.properties文件，用于下边的数据库配置 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+	<!-- 配置c3p0连接池 开始 -->
+	<bean id="myC3P0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClassName}"></property>
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="user" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}"></property>
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}"></property>
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}"></property>
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}"></property>
+		<property name="minPoolSize" value="${c3p0.minPoolSize}"></property>
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}"></property>
+		<property name="maxStatements" value="${c3p0.maxStatements}"></property>
+		<property name="numHelperThreads" value="${c3p0.numHelperThreads}"></property>
+		<property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}"></property>
+		<property name="preferredTestQuery" value="${c3p0.preferredTestQuery}"></property>
+		<property name="acquireRetryDelay" value="1000"></property>
+		<property name="acquireRetryAttempts" value="60"></property>
+		<property name="breakAfterAcquireFailure" value="false"></property>
+	</bean>
+	<!-- 配置c3p0连接池 结束 -->
+
+	<!--创建sqlSessionFactory 开始 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="myC3P0DataSource"></property>
+		<property name="mapperLocations" value="classpath:com/cn/mapper/*.xml" />
+		<property name="typeAliasesPackage" value="com.cn.model"></property>
+		<property name="configLocation" value="classpath:mybatis.xml" />
+	</bean>
+	<!--创建sqlSessionFactory 结束 -->
+
+	<!-- 扫描sql映射文件 开始 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.cn.dao"></property>
+	</bean>
+	<!-- 扫描sql映射文件 结束 -->
+
+	<!-- 配置事务管理器 开始 -->
+	<bean id="txmanager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="myC3P0DataSource"></property>
+	</bean>
+	<!-- 配置事务管理器 结束 -->
+
+	<!--基本事务定义，使用transactionManager作事务管理,默认get*,find*方法的事务为read-only -->
+	<tx:advice id="txAdvice" transaction-manager="txmanager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 定义AOP配置    第一个*代表所有的返回值类型 第二个*代表所有的类 第三个*代表类所有方法 最后一个..代表所有的参数。 -->
+	<aop:config>
+		<!-- 定义一个切入点 -->
+		<aop:pointcut id="interceptorPointCuts"
+			expression="execution(* com.cn.service.impl.*Impl.*(..)) or execution(* com.cn.base.*Impl.*(..))" />
+		<!-- 对切入点和事务的通知，进行适配 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
+	</aop:config>
+</beans>

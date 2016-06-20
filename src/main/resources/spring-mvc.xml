@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="  
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd  
+	http://www.springframework.org/schema/mvc   
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<!-- Spring为我们提供了一种极为方便注册这些BeanPostProcessor的方式， 即使用<context:annotation- 
+		config/>隐式地向 Spring容器注册 AutowiredAnnotationBeanPostProcessor、 RequiredAnnotationBeanPostProcessor、 
+		CommonAnnotationBeanPostProcessor以及 PersistenceAnnotationBeanPostProcessor这4个BeanPostProcessor -->
+	<context:annotation-config />
+
+	<!-- <mvc:annotation-driven /> 是一种简写形式, 会自动注册DefaultAnnotationHandlerMapping与 
+		AnnotationMethodHandlerAdapter 两个bean, 是spring MVC为@Controllers分发请求所必须的 -->
+	<mvc:annotation-driven />
+
+	<!--使Spring支持自动检测组件，如注解的Controller -->
+	<context:component-scan base-package="com.cn.controller" />
+
+	<!-- FastJsonConfig -->
+	<bean id="fastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">
+		<!-- Default charset -->
+		<property name="charset" value="UTF-8" />
+		<!-- Default dateFormat -->
+		<property name="dateFormat" value="yyyy-MM-dd HH:mm:ss" />
+	</bean>
+	
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<!-- MediaTypes -->
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json</value>
+					</list>
+				</property>
+				<!-- FastJsonConfig -->
+				<property name="fastJsonConfig" ref="fastJsonConfig" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<mvc:default-servlet-handler />
+
+	<!-- 将静态文件指定到某个特殊的文件夹中统一处理 -->
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+</beans>  
