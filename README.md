@@ -10,7 +10,7 @@ Tomcat 7.0+
 [GitHub](https://github.com/ifzm)  
 [Blog](http://smileue.com)
 
-## TODO
+## Description
 `Maven build - tomcat7:run`
 
 项目使用   `Redis` 作为缓存层，使用时请安装  [Redis](http://redis.io) 并启动服务
