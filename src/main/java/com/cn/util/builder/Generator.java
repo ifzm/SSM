@@ -562,32 +562,30 @@ public class Generator {
 				return this;
 			}
 
-			switch (type) {
-			case "Dao": {
-				type = "Mapper.java";
-				break;
+			String temp = "";
+
+			if ("Dao".equals(type)){
+				temp = "Dao.java";
 			}
-			case "Mapper": {
-				type = "Mapper.xml";
-				break;
+			if ("Mapper".equals(type)){
+				temp = "Mapper.xml";
 			}
-			case "Model": {
-				type = ".java";
-				break;
+			if ("Model".equals(type)){
+				temp = "Model.java";
 			}
-			case "Service": {
-				type = "Service.java";
-				break;
+			if ("Service".equals(type)){
+				temp = "Service.java";
 			}
-			case "ServiceImpl": {
-				type = "ServiceImpl.java";
-				break;
+			if ("ServiceImpl".equals(type)){
+				temp = "ServiceImpl.java";
 			}
-			default: {
+
+			if (temp.equals("")){
 				throw new Exception(
 						"Unknown type, Optional parameters [\"Dao\", \"Mapper\", \"Model\", \"Service\", \"ServiceImpl\"]");
 			}
-			}
+
+
 			// 构建绝对路径
 			String path = new File("").getAbsolutePath()
 					+ "\\src\\main\\java\\" + pkg.replace(".", "\\") + "\\";
